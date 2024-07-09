@@ -3,11 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { CustomTypeOrmModule } from './typeorm.config';
-import { SocketModule } from './socket/socket.module';
 import { MessagesModule } from './messages/messages.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UserModule, MessagesModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    UserModule, MessagesModule, CustomTypeOrmModule],
   controllers: [AppController],
   providers: [AppService],
 })

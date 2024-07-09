@@ -1,3 +1,4 @@
+// messages.gateway.ts
 import {
   WebSocketGateway,
   SubscribeMessage,
@@ -22,12 +23,14 @@ export class MessagesGateway {
 
   constructor(private readonly messagesService: MessagesService) {}
 
+  // handleConnection(client: Socket) {
+  //   console.log(`Client connected: ${client.id}`);
+  // }
+
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto, @ConnectedSocket() client: Socket) {
     const message = await this.messagesService.create(createMessageDto, client.id);
-
     this.server.emit('message', message);
-
     return message;
   }
 
